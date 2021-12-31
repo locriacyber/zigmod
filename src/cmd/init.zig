@@ -135,12 +135,15 @@ pub fn execute(args: [][]u8) !void {
             if (len > 0 and (try file.reader().readByte()) != '\n') {
                 try w.writeAll("\n");
             }
-            if (!exists) try w.writeAll("* text=auto\n");
-            if (!exists) try w.writeAll("*.zig text eol=lf # See https://github.com/ziglang/zig-spec/issues/38\n");
-            try w.writeAll("zig.mod text eol=lf\n");
-            try w.writeAll("zigmod.* text eol=lf\n");
-            try w.writeAll("zig.mod linguist-language=YAML\n");
-            try w.writeAll("zig.mod gitlab-language=yaml\n");
+            try w.writeAll(
+                \\# See https://github.com/ziglang/zig-spec/issues/38
+                \\*.zig text eol=lf
+                \\zig.mod text eol=lf
+                \\zigmod.* text eol=lf
+                \\zig.mod linguist-language=YAML
+                \\zig.mod gitlab-language=yaml
+                \\
+            );
         }
     }
 }
