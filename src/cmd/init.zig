@@ -3,7 +3,6 @@ const string = []const u8;
 const gpa = std.heap.c_allocator;
 
 const inquirer = @import("inquirer");
-const detectlicense = @import("detect-license");
 const knownfolders = @import("known-folders");
 const ini = @import("ini");
 const u = @import("./../util/index.zig");
@@ -42,7 +41,7 @@ pub fn execute(args: [][]u8) !void {
         else => return err,
     }) else null;
 
-    const license = try inquirer.forString(stdout, stdin, "license:", gpa, try detectlicense.detectInDir(gpa, cwd));
+    const license = try inquirer.forString(stdout, stdin, "license:", gpa, null);
 
     const description = try inquirer.forString(stdout, stdin, "description:", gpa, null);
 
@@ -75,32 +74,34 @@ pub fn execute(args: [][]u8) !void {
     }
 
     // ask about LICENSE
-    if (!(try u.does_file_exist(null, "LICENSE"))) {
-        if (detectlicense.licenses.find(license)) |text| {
-            if (try inquirer.forConfirm(stdout, stdin, "It appears you don't have a LICENSE file defined, would you like init to add it for you?", gpa)) {
-                var realtext = text;
-                realtext = try std.mem.replaceOwned(u8, gpa, realtext, "<year>", try inquirer.answer(
-                    stdout,
-                    "year:",
-                    string,
-                    "{s}",
-                    try std.fmt.allocPrint(gpa, "{d}", .{1970 + @divFloor(std.time.timestamp(), s_in_y)}),
-                ));
-                realtext = try std.mem.replaceOwned(u8, gpa, realtext, "<copyright holders>", try inquirer.forString(
-                    stdout,
-                    stdin,
-                    "copyright holder's name:",
-                    gpa,
-                    try guessCopyrightName(),
-                ));
+    // disabled because detectlicense is slow
 
-                const file = try cwd.createFile("LICENSE", .{});
-                defer file.close();
-                const w = file.writer();
-                try w.writeAll(realtext);
-            }
-        }
-    }
+    // if (!(try u.does_file_exist(null, "LICENSE"))) {
+    //     if (detectlicense.licenses.find(license)) |text| {
+    //         if (try inquirer.forConfirm(stdout, stdin, "It appears you don't have a LICENSE file defined, would you like init to add it for you?", gpa)) {
+    //             var realtext = text;
+    //             realtext = try std.mem.replaceOwned(u8, gpa, realtext, "<year>", try inquirer.answer(
+    //                 stdout,
+    //                 "year:",
+    //                 string,
+    //                 "{s}",
+    //                 try std.fmt.allocPrint(gpa, "{d}", .{1970 + @divFloor(std.time.timestamp(), s_in_y)}),
+    //             ));
+    //             realtext = try std.mem.replaceOwned(u8, gpa, realtext, "<copyright holders>", try inquirer.forString(
+    //                 stdout,
+    //                 stdin,
+    //                 "copyright holder's name:",
+    //                 gpa,
+    //                 try guessCopyrightName(),
+    //             ));
+
+    //             const file = try cwd.createFile("LICENSE", .{});
+    //             defer file.close();
+    //             const w = file.writer();
+    //             try w.writeAll(realtext);
+    //         }
+    //     }
+    // }
 
     // ask about .gitignore
     if (try u.does_folder_exist(".git")) {

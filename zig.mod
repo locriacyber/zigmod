@@ -37,9 +37,9 @@ dependencies:
   - src: git https://github.com/truemedian/zfetch
   - src: git https://github.com/nektro/zig-json
   - src: git https://github.com/nektro/zig-range
-  - src: git https://github.com/nektro/zig-detect-license
   - src: git https://github.com/nektro/zig-inquirer
   - src: git https://github.com/arqv/ini
 
-root_dependencies:
-  - src: git https://github.com/marlersoft/zigwin32
+# I don't use Windows anyway
+#root_dependencies:
+#  - src: git https://github.com/marlersoft/zigwin32

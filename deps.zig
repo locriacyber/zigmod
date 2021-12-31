@@ -41,7 +41,7 @@ pub const Package = struct {
     vcpkg: bool = false,
 };
 
-const dirs = struct {
+pub const dirs = struct {
     pub const _root = "";
     pub const _89ujp8gq842x = cache ++ "/../..";
     pub const _8mdbh0zuneb0 = cache ++ "/v/git/github.com/yaml/libyaml/tag-0.2.5";
@@ -62,7 +62,6 @@ const dirs = struct {
     pub const _qyrnfg0iwpzl = cache ++ "/git/github.com/nektro/zig-fs-check";
     pub const _c1xirp1ota5p = cache ++ "/git/github.com/nektro/zig-inquirer";
     pub const _u7sysdckdymi = cache ++ "/git/github.com/arqv/ini";
-    pub const _o6ogpor87xc2 = cache ++ "/git/github.com/marlersoft/zigwin32";
 };
 
 pub const package_data = struct {
@@ -144,10 +143,6 @@ pub const package_data = struct {
         .directory = dirs._89ujp8gq842x,
         .pkg = Pkg{ .name = "zigmod", .path = .{ .path = dirs._89ujp8gq842x ++ "/src/lib.zig" }, .dependencies = &.{ _csbnipaad8n7.pkg.?, _s84v9o48ucb0.pkg.?, _2ta738wrqbaq.pkg.?, _0npcrzfdlrvk.pkg.?, _ejw82j2ipa0e.pkg.?, _ocmr9rtohgcc.pkg.?, _tnj3qf44tpeq.pkg.?, _2ovav391ivak.pkg.?, _c1xirp1ota5p.pkg.?, _u7sysdckdymi.pkg.? } },
     };
-    pub const _o6ogpor87xc2 = Package{
-        .directory = dirs._o6ogpor87xc2,
-        .pkg = Pkg{ .name = "win32", .path = .{ .path = dirs._o6ogpor87xc2 ++ "/win32.zig" }, .dependencies = null },
-    };
     pub const _root = Package{
         .directory = dirs._root,
     };
@@ -155,12 +150,10 @@ pub const package_data = struct {
 
 pub const packages = &[_]Package{
     package_data._89ujp8gq842x,
-    package_data._o6ogpor87xc2,
 };
 
 pub const pkgs = struct {
     pub const zigmod = package_data._89ujp8gq842x;
-    pub const win32 = package_data._o6ogpor87xc2;
 };
 
 pub const imports = struct {
